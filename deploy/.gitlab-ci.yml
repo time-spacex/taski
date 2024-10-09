@@ -1,0 +1,26 @@
+stages:
+  - image
+
+services:
+  - docker:dind
+
+.build_image:
+  stage: image
+  image: ubuntu-latest
+  tags: [docker]
+  only:
+    - master
+  variables:
+    BACKEND_IMAGE: "$CI_REGISTRY_USER/taski_backend:latest"
+    FRONTEND_IMAGE: "$CI_REGISTRY_USER/taski_frontend:latest"
+    GATEWAY_IMAGE: "$CI_REGISTRY_USER/taski_gateway:latest"
+  before_script:
+    - docker login -u "$CI_REGISTRY_LOGIN" -p "$CI_REGISTRY_PASSWORD"
+
+build_backend:
+  extends: .build_image
+  script:
+    - docker build -t "$BACKEND_IMAGE" -f "backend/Dockerfile" .
+    - docker push "$BACKEND_IMAGE"
+    - docker image rm "$BACKEND_IMAGE"
+    - echo "Push done, check docker hub maafaka!"
