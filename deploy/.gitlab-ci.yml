@@ -6,7 +6,8 @@ services:
 
 .build_image:
   stage: image
-  image: time1spacex/gitlab-utils:24.0.5-alpine3.18
+  # image: time1spacex/gitlab-utils:24.0.5-alpine3.18
+  image: ubuntu:latest
   tags: [docker]
   only:
     - master
