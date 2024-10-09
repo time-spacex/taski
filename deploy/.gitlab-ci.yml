@@ -6,7 +6,7 @@ services:
 
 .build_image:
   stage: image
-  # image: docker:latest
+  image: docker:latest
   tags: [docker]
   only:
     - master
