@@ -24,4 +24,11 @@ build_backend:
     - docker build -t "$BACKEND_IMAGE" -f "Dockerfile" --network=host .
     - docker push "$BACKEND_IMAGE"
     - docker image rm "$BACKEND_IMAGE"
-    - echo "Push done, check docker hub maafaka!"
+
+build_frontend:
+  extends: .build_image
+  script:
+    - cd frontend
+    - docker build -t "$FRONTEND_IMAGE" -f "Dockerfile" --network=host .
+    - docker push "$FRONTEND_IMAGE"
+    - docker image rm "$FRONTEND_IMAGE"
