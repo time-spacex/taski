@@ -1,8 +1,8 @@
 stages:
   - image
 
-services:
-  - docker:dind
+# services:
+#   - docker:dind
 
 .build_image:
   stage: image
