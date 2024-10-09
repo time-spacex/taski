@@ -32,3 +32,11 @@ build_frontend:
     - docker build -t "$FRONTEND_IMAGE" -f "Dockerfile" --network=host .
     - docker push "$FRONTEND_IMAGE"
     - docker image rm "$FRONTEND_IMAGE"
+
+build_gateway:
+  extends: .build_image
+  script:
+    - cd gateway
+    - docker build -t "$GATEWAY_IMAGE" -f "Dockerfile" --network=host .
+    - docker push "$GATEWAY_IMAGE"
+    - docker image rm "$GATEWAY_IMAGE"
