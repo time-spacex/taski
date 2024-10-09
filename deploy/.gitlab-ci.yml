@@ -14,7 +14,6 @@ stages:
     BACKEND_IMAGE: "$CI_REGISTRY_USER/taski_backend:latest"
     FRONTEND_IMAGE: "$CI_REGISTRY_USER/taski_frontend:latest"
     GATEWAY_IMAGE: "$CI_REGISTRY_USER/taski_gateway:latest"
-    DNS: 8.8.8.8
   before_script:
     - docker login -u "$CI_REGISTRY_LOGIN" -p "$CI_REGISTRY_PASSWORD"
 
@@ -22,7 +21,7 @@ build_backend:
   extends: .build_image
   script:
     - cd backend
-    - docker build -t "$BACKEND_IMAGE" -f "Dockerfile" .
+    - docker build -t "$BACKEND_IMAGE" -f "Dockerfile" --network=host .
     - docker push "$BACKEND_IMAGE"
     - docker image rm "$BACKEND_IMAGE"
     - echo "Push done, check docker hub maafaka!"
