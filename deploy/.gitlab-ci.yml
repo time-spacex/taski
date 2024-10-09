@@ -16,13 +16,12 @@ services:
     GATEWAY_IMAGE: "$CI_REGISTRY_USER/taski_gateway:latest"
   before_script:
     - docker login -u "$CI_REGISTRY_LOGIN" -p "$CI_REGISTRY_PASSWORD"
-    - docker info
 
 build_backend:
   extends: .build_image
   script:
-    - docker info
-    - docker build -t "$BACKEND_IMAGE" -f "backend/Dockerfile" .
+    - cd backend
+    - docker build -t "$BACKEND_IMAGE" -f "Dockerfile" .
     - docker push "$BACKEND_IMAGE"
     - docker image rm "$BACKEND_IMAGE"
     - echo "Push done, check docker hub maafaka!"
