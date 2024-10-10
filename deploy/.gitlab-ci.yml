@@ -1,5 +1,6 @@
 stages:
   - image
+  - deploy
 
 # services:
 #   - docker:dind
@@ -40,3 +41,17 @@ build_gateway:
     - docker build -t "$GATEWAY_IMAGE" -f "Dockerfile" --network=host .
     - docker push "$GATEWAY_IMAGE"
     - docker image rm "$GATEWAY_IMAGE"
+
+deploy_to_server:
+  stage: deploy
+  tags: [docker]
+  only:
+    - master
+  before_script:
+    - apk update && apk add openssh-client bash
+    - eval $(ssh-agent -s)
+    - bash -c 'ssh-add <(echo "$CI_SSH_KEY")'
+    - mkdir -p ~/.ssh
+  script:
+    - ssh-keyscan 194.67.88.232 > ~/.ssh/known_hosts
+    - scp -r ./docker-compose.production.yml root@194.67.88.232:/storage/tasks/docker-compose.yml
