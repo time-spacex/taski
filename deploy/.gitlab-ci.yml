@@ -55,3 +55,5 @@ deploy_to_server:
   script:
     - ssh-keyscan 194.67.88.232 > ~/.ssh/known_hosts
     - scp -r ./docker-compose.production.yml root@194.67.88.232:/storage/tasks/docker-compose.yml
+    - scp -r ./collect_static.sh root@194.67.88.232:/storage/tasks/collect_static.sh
+    - ssh root@194.67.88.232 "cd /storage/tasks && docker compose pull && docker compose down && docker compose up -d && chmod +x ./collect_static.sh && ./collect_static.sh"
