@@ -2,9 +2,6 @@ stages:
   - image
   - deploy
 
-# services:
-#   - docker:dind
-
 .build_image:
   stage: image
   image: docker:latest
