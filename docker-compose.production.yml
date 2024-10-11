@@ -15,17 +15,23 @@ services:
   backend:
     image: time1spacex/taski_backend
     env_file: .env
+    depends_on:
+      - db
     volumes:
       - static_volume:/backend_static
   frontend:
     image: time1spacex/taski_frontend  # Качаем с Docker Hub
     env_file: .env
+    depends_on:
+      - backend
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static_volume:/frontend_static
   gateway:
     image: time1spacex/taski_gateway  # Качаем с Docker Hub
     env_file: .env
+    depends_on:
+      - frontend
     volumes:
       - static_volume:/staticfiles/
     ports:
