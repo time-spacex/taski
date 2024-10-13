@@ -48,3 +48,22 @@ The locally running application will be available at http://localhost:8000
 
 + Linux Debian 12 or Ubuntu 22.04 or newer
 + Docker 26.1.4 or newer
+
+## Monitoring
+
+For monitor the application and other docker based services there are several tools implemented on the server:
+
++ Grafana - latest release for visual representation of the status of services and applications;
++ Prometheus - latest release for scrape metrics;
++ Cadvisor:canary - collects metrics from application and monitoring services;
++ Loki:2.8.0 - for collecting logs and translate to grafana;
++ Fluentd - as a plugin for grafana/loki service to collect logs from containers.
+
+These tools are collected in a separate project, you can check the link for a details: http://gitlab-rkleshnev.ru/web/tasks-monitoring
+
+### Project authors
+
+Application backend, infrastructure and CI/CD made by Kleshnev Roman (teleghram - @metandr, GitHub - time-spacex)
+frontend made by Yandex.Practicum
+
+2024 Oct
