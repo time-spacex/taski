@@ -51,7 +51,13 @@ The locally running application will be available at http://localhost:8000
 
 ## Monitoring
 
-For monitor the application and other docker based services there are several tools implemented on the server:
+For monitor the application and other docker based services check link:
+http://194.67.88.232/monitoring/d/ee0qt1ul66m80b/docker-monitoring?orgId=1&refresh=10s
+
+Alert rules you can check to this link:
+http://194.67.88.232/monitoring/alerting/list
+
+There are several tools implemented on the server:
 
 + Grafana - latest release for visual representation of the status of services and applications;
 + Prometheus - latest release for scrape metrics;
