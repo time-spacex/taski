@@ -8,6 +8,7 @@ This is a simple project for creating notes. There are 2 tabs, when creating and
 
 The internal storage for the project is implemented on PostgreSQL 13.10.
 CI/CD is implemented in /deploy/.gitlab-ci.yml
+Running project available at http://194.67.88.232/
 
 ## CI/CD and infrastructure
 
