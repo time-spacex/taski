@@ -22,7 +22,7 @@ sudo docker info
 ```
 Second - clone git repository
 ```
-git clone https://gitlab.com/web7410842/tasks.git
+git clone https://gitflic.ru/project/time-space/tasks.git
 ```
 Third - create .env file with secrets for PostgreSQL in your /tasks folder:
 ```
