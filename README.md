@@ -22,7 +22,7 @@ sudo docker info
 ```
 Second - clone git repository
 ```
-git clone git@gitlab-rkleshnev.ru:web/tasks.git
+git clone https://github.com/time-spacex/taski.git
 ```
 Third - create .env file with secrets for PostgreSQL in your /tasks folder:
 ```
@@ -33,6 +33,7 @@ POSTGRES_PASSWORD=sample_password
 POSTGRES_DB=django
 DB_HOST=db
 DB_PORT=5432
+ALLOWED_HOSTS='<your host IP adress>, localhost, 127.0.0.1'
 ```
 Finally run docker-compose.yml to start the application.
 ```
