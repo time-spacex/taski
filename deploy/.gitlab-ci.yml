@@ -1,0 +1,58 @@
+stages:
+  - image
+  - deploy
+
+.build_image:
+  stage: image
+  image: docker:latest
+  tags: [docker]
+  only:
+    - master
+  variables:
+    BACKEND_IMAGE: "$CI_REGISTRY_USER/taski_backend:latest"
+    FRONTEND_IMAGE: "$CI_REGISTRY_USER/taski_frontend:latest"
+    GATEWAY_IMAGE: "$CI_REGISTRY_USER/taski_gateway:latest"
+  before_script:
+    - docker login -u "$CI_REGISTRY_LOGIN" -p "$CI_REGISTRY_PASSWORD"
+
+build_backend:
+  extends: .build_image
+  script:
+    - cd backend
+    - docker build -t "$BACKEND_IMAGE" -f "Dockerfile" --network=host .
+    - docker push "$BACKEND_IMAGE"
+    - docker image rm "$BACKEND_IMAGE"
+
+build_frontend:
+  extends: .build_image
+  script:
+    - cd frontend
+    - docker build -t "$FRONTEND_IMAGE" -f "Dockerfile" --network=host .
+    - docker push "$FRONTEND_IMAGE"
+    - docker image rm "$FRONTEND_IMAGE"
+
+build_gateway:
+  extends: .build_image
+  script:
+    - cd gateway
+    - docker build -t "$GATEWAY_IMAGE" -f "Dockerfile" --network=host .
+    - docker push "$GATEWAY_IMAGE"
+    - docker image rm "$GATEWAY_IMAGE"
+
+deploy_to_server:
+  stage: deploy
+  tags: [docker]
+  only:
+    - master
+  variables:
+    DEPLOY_SERVER_IP: 194.67.88.232
+  before_script:
+    - apk update && apk add openssh-client bash
+    - eval $(ssh-agent -s)
+    - bash -c 'ssh-add <(echo "$CI_SSH_KEY")'
+    - mkdir -p ~/.ssh
+  script:
+    - ssh-keyscan "$DEPLOY_SERVER_IP" > ~/.ssh/known_hosts
+    - scp -r ./docker-compose.production.yml root@"$DEPLOY_SERVER_IP":/storage/tasks/docker-compose.yml
+    - scp -r ./collect_static.sh root@"$DEPLOY_SERVER_IP":/storage/tasks/collect_static.sh
+    - ssh root@"$DEPLOY_SERVER_IP" "cd /storage/tasks && docker compose pull && docker compose down && docker compose up -d && chmod +x ./collect_static.sh && ./collect_static.sh"
